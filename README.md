@@ -1,6 +1,7 @@
 # World News GDELT Pipeline
 
 Apache Airflow를 사용한 GDELT(Global Database of Events, Language, and Tone) 데이터 파이프라인입니다.
+https://taewrui.site/
 
 ## 개요
 
@@ -12,17 +13,17 @@ Apache Airflow를 사용한 GDELT(Global Database of Events, Language, and Tone)
 - **데이터 처리**: Export, Mentions, GKG 데이터 정제 및 변환
 - **PostgreSQL 저장**: 정제된 데이터를 PostgreSQL 데이터베이스에 저장
 - **Google Cloud Storage 연동**: 처리된 데이터를 GCS에 백업
-- **모니터링**: 데이터 품질 및 파이프라인 실행 모니터링
-- **Slack 알림**: 일일 리포트 및 오류 알림
+- **모니터링**: 데이터 품질 및 파이프라인 실행을 Superset 대시보드에서 모니터링
+- **Slack 알림**: 일일 리포트 알림
+- **데이터 조회**: 웹 사이트에서 데이터를 조회
 
 ## 아키텍처
 
 ```
-GDELT API → Airflow → Data Processing → PostgreSQL
-                                    ↓
-                              Google Cloud Storage
-                                    ↓
-                                 Slack 알림
+GDELT API → Airflow → Data Processing → PostgreSQL → FastAPI
+              ↓                ↓            ↓
+    Google Cloud Storage   Slack 알림  Superset 대시보드
+                                    
 ```
 
 ## 구성 요소
