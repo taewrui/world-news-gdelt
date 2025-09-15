@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>World Event Info by GDELT - {{ table_name.upper() }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>World Event Info by GDELT</h1>
+    
+    <!-- 테이블 선택 메뉴 -->
+    <div class="table-selector">
+        <h3>테이블 선택:</h3>
+        {% for table in available_tables %}
+            <a href="/?table={{ table }}" class="table-link {% if table == table_name %}active{% endif %}">
+                {{ table.replace('_', ' ').title() }}
+            </a>
+        {% endfor %}
+    </div>
+    
+    <!-- 현재 테이블 정보 -->
+    <div class="current-table-info">
+        <h2>{{ table_name.replace('_', ' ').title() }} ({{ rows|length }}개 레코드)</h2>
+        <p>API 엔드포인트: <code>/api/rows?table={{ table_name }}</code></p>
+    </div>
+    
+    <!-- 데이터 테이블 -->
+    <table>
+        <thead>
+            <tr>
+                {% for display_name in display_names %}
+                <th>{{ display_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if rows|length == 0 %}
+    <p class="no-data">데이터가 없습니다.</p>
+    {% endif %}
+</body>
+</html>

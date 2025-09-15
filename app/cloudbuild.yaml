@@ -1,0 +1,30 @@
+steps:
+  # Docker 이미지 빌드
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/gdelt-web-app:$COMMIT_SHA', '.']
+    
+  # Container Registry에 푸시
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/gdelt-web-app:$COMMIT_SHA']
+    
+  # Cloud Run에 배포
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'gdelt-web-app'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/gdelt-web-app:$COMMIT_SHA'
+      - '--region'
+      - 'asia-northeast3'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--add-cloudsql-instances'
+      - 'silicon-garage-464510-p4:asia-northeast3:gdelt-db'
+      - '--set-env-vars'
+      - 'DATABASE_URL=postgresql://postgres:$$DB_PASSWORD@/cloudsql/silicon-garage-464510-p4:asia-northeast3:gdelt-db/db'
+
+# 빌드된 이미지들
+images:
+  - 'gcr.io/$PROJECT_ID/gdelt-web-app:$COMMIT_SHA'

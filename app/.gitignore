@@ -1,0 +1,25 @@
+# Python 관련
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# 환경변수 파일
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# 로그 파일
+*.log
+
+# 데이터베이스
+*.db
+*.sqlite3

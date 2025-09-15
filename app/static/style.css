@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 2em;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 1em;
+}
+
+h2 {
+    color: #555;
+    margin-bottom: 0.5em;
+}
+
+h3 {
+    color: #666;
+    margin-bottom: 0.5em;
+}
+
+/* 테이블 선택 메뉴 */
+.table-selector {
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table-link {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0.25em;
+    background: #e9ecef;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.table-link:hover {
+    background: #dee2e6;
+}
+
+.table-link.active {
+    background: #007bff;
+    color: white;
+}
+
+/* 현재 테이블 정보 */
+.current-table-info {
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.current-table-info code {
+    background: #f8f9fa;
+    padding: 0.25em 0.5em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* 데이터 테이블 */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: left;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #e3f2fd;
+}
+
+/* 데이터 없음 메시지 */
+.no-data {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 2em;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
