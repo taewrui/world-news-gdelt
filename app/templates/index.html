@@ -10,6 +10,8 @@
     
     <!-- 테이블 선택 메뉴 -->
     <div class="table-selector">
+        <h3>메뉴:</h3>
+        <a href="/stats" class="table-link">통계</a>
         <h3>테이블 선택:</h3>
         {% for table in available_tables %}
             <a href="/?table={{ table }}" class="table-link {% if table == table_name %}active{% endif %}">

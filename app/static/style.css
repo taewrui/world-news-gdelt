@@ -106,3 +106,60 @@ tr:hover {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+
+/* 통계 페이지 스타일 */
+.stats-container {
+    display: grid;
+    gap: 2em;
+}
+
+.stats-section {
+    background: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.chart-container {
+    margin: 1em 0;
+    height: 400px;
+    position: relative;
+}
+
+.stats-table {
+    margin-top: 1.5em;
+}
+
+.stats-table table {
+    margin: 0;
+}
+
+.stats-table th {
+    background: #f1f3f4;
+}
+
+/* 반응형 디자인 */
+@media (min-width: 1200px) {
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1em;
+    }
+    
+    .table-selector {
+        padding: 0.5em;
+    }
+    
+    .table-link {
+        display: block;
+        margin: 0.25em 0;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+}

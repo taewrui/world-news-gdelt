@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>World Event Info by GDELT - 통계</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>World Event Info by GDELT - 통계</h1>
+    
+    <!-- 네비게이션 메뉴 -->
+    <div class="table-selector">
+        <h3>메뉴:</h3>
+        <a href="/" class="table-link">데이터 조회</a>
+        <a href="/stats" class="table-link active">통계</a>
+    </div>
+    
+    <!-- 통계 섹션 -->
+    <div class="stats-container">
+        <!-- 일별 통계 -->
+        <div class="stats-section">
+            <h2>일별 이벤트 빈도 (최근 30일)</h2>
+            <div class="chart-container">
+                <canvas id="dailyChart" width="400" height="200"></canvas>
+            </div>
+            <div class="stats-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>이벤트 수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date, count in daily_stats %}
+                        <tr>
+                            <td>{{ date }}</td>
+                            <td>{{ "{:,}".format(count) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 국가별 통계 -->
+        <div class="stats-section">
+            <h2>국가별 이벤트 빈도 (상위 20개국)</h2>
+            <div class="chart-container">
+                <canvas id="countryChart" width="400" height="200"></canvas>
+            </div>
+            <div class="stats-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>국가 코드</th>
+                            <th>이벤트 수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for country, count in country_stats %}
+                        <tr>
+                            <td>{{ country }}</td>
+                            <td>{{ "{:,}".format(count) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 일별 통계 차트
+        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+        const dailyData = [
+            {% for date, count in daily_stats %}
+            { x: '{{ date }}', y: {{ count }} },
+            {% endfor %}
+        ];
+        
+        new Chart(dailyCtx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: '일별 이벤트 수',
+                    data: dailyData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: '날짜'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '이벤트 수'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 국가별 통계 차트
+        const countryCtx = document.getElementById('countryChart').getContext('2d');
+        const countryLabels = [{% for country, count in country_stats %}'{{ country }}',{% endfor %}];
+        const countryCounts = [{% for country, count in country_stats %}{{ count }},{% endfor %}];
+        
+        new Chart(countryCtx, {
+            type: 'bar',
+            data: {
+                labels: countryLabels,
+                datasets: [{
+                    label: '국가별 이벤트 수',
+                    data: countryCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '이벤트 수'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '국가 코드'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

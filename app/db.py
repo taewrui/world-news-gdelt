@@ -83,3 +83,81 @@ def get_rows(table_name="raw_gkg"):
 def get_table_config(table_name):
     """테이블 설정 정보를 반환합니다."""
     return TABLE_CONFIGS.get(table_name, {"columns": [], "display_names": []})
+
+
+def get_daily_stats():
+    """일별 이벤트 빈도 통계를 반환합니다."""
+    if not DATABASE_URL or "username:password" in DATABASE_URL:
+        # 모의 데이터
+        return [
+            ("2024-06-01", 1250),
+            ("2024-06-02", 1180),
+            ("2024-06-03", 1320),
+            ("2024-06-04", 1090),
+            ("2024-06-05", 1410),
+        ]
+    
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        
+        query = """
+        SELECT day, COUNT(*) as event_count
+        FROM raw_export 
+        WHERE day IS NOT NULL
+        GROUP BY day 
+        ORDER BY day DESC 
+        LIMIT 30;
+        """
+        cur.execute(query)
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return rows
+    except Exception as e:
+        print(f"Database connection failed: {e}")
+        return [
+            ("2024-06-01", 1250),
+            ("2024-06-02", 1180),
+            ("2024-06-03", 1320),
+        ]
+
+
+def get_country_stats():
+    """국가별 이벤트 빈도 통계를 반환합니다."""
+    if not DATABASE_URL or "username:password" in DATABASE_URL:
+        # 모의 데이터
+        return [
+            ("USA", 2890),
+            ("CHN", 1650),
+            ("RUS", 1420),
+            ("GBR", 980),
+            ("DEU", 750),
+        ]
+    
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        
+        query = """
+        SELECT 
+            COALESCE(actor1countrycode, 'Unknown') as country,
+            COUNT(*) as event_count
+        FROM raw_export 
+        WHERE actor1countrycode IS NOT NULL
+        GROUP BY actor1countrycode 
+        ORDER BY COUNT(*) DESC 
+        LIMIT 20;
+        """
+        cur.execute(query)
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return rows
+    except Exception as e:
+        print(f"Database connection failed: {e}")
+        return [
+            ("USA", 2890),
+            ("CHN", 1650),
+            ("RUS", 1420),
+        ]
