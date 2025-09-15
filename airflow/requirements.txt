@@ -1,0 +1,14 @@
+# Apache Airflow Providers
+apache-airflow-providers-postgres==5.10.2
+apache-airflow-providers-google==10.19.0
+apache-airflow-providers-slack==8.6.2
+
+# Database drivers
+psycopg2-binary==2.9.9
+
+# Data processing (compatible versions)
+pandas>=1.2.5,<2.2
+pyarrow>=10.0.0
+
+# Utilities
+requests>=2.25.0
